@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="title">
+
+📊 Cyber Security Dashboard
+
+</h1>
+
+<br>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card">
+
+<h4>
+
+Total URL Scans
+
+</h4>
+
+<h2>
+
+{{ total_scans }}
+
+</h2>
+
+</div>
+
+<div class="dashboard-card safe-card">
+
+<h4>
+
+Safe Websites
+
+</h4>
+
+<h2>
+
+{{ safe_scans }}
+
+</h2>
+
+</div>
+
+<div class="dashboard-card danger-card">
+
+<h4>
+
+Phishing Websites
+
+</h4>
+
+<h2>
+
+{{ phishing_scans }}
+
+</h2>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="glass-card">
+
+<h2>
+
+📈 Dashboard Summary
+
+</h2>
+
+<br>
+
+<table class="table table-dark table-bordered text-center">
+
+<thead>
+
+<tr>
+
+<th>
+
+Category
+
+</th>
+
+<th>
+
+Count
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+
+Total Scans
+
+</td>
+
+<td>
+
+{{ total_scans }}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Safe Websites
+
+</td>
+
+<td style="color:#00ff88;">
+
+{{ safe_scans }}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Phishing Websites
+
+</td>
+
+<td style="color:red;">
+
+{{ phishing_scans }}
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<br>
+
+<div class="glass-card">
+
+<h2>
+
+🛡 Dashboard Information
+
+</h2>
+
+<p style="line-height:32px;">
+
+This dashboard displays the total number of scanned URLs,
+safe websites detected, and phishing websites identified.
+It provides a quick overview of scanning activity and helps
+users monitor phishing threats effectively.
+
+</p>
+
+</div>
+
+{% endblock %}

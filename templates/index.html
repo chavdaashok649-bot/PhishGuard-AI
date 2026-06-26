@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="scanner-page">
+
+    <!-- URL Scanner Card -->
+
+    <div class="glass-card scanner-card">
+
+        <h1 class="title">
+            🔐 AI Phishing URL Scanner
+        </h1>
+
+        <p class="subtitle">
+            Scan any website URL and detect phishing threats instantly.
+        </p>
+
+        <form action="/predict" method="POST">
+
+            <input
+                type="text"
+                name="url"
+                class="url-input"
+                placeholder="https://example.com"
+                required>
+
+            <button
+                type="submit"
+                class="scan-btn">
+
+                🔍 Scan Website
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Dashboard -->
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+
+            <h4>Total Scans</h4>
+
+            <h2>
+
+                {{ total_scans }}
+
+            </h2>
+
+        </div>
+
+        <div class="dashboard-card safe-card">
+
+            <h4>Safe Websites</h4>
+
+            <h2>
+
+                {{ safe_scans }}
+
+            </h2>
+
+        </div>
+
+        <div class="dashboard-card danger-card">
+
+            <h4>Phishing Found</h4>
+
+            <h2>
+
+                {{ phishing_scans }}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- History -->
+
+    <div class="history-section">
+
+        <button
+            class="history-btn"
+            onclick="toggleHistory()">
+
+            📜 View Scan History
+
+        </button>
+
+        <div
+            id="historyBox"
+            class="history-box">
+
+            <h3>
+
+                Scan History
+
+            </h3>
+
+            {% if history %}
+
+                {% for item in history %}
+
+                <div class="history-item">
+
+                    <div>
+
+                        <strong>
+
+                            URL
+
+                        </strong>
+
+                        <br>
+
+                        {{ item.url }}
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+
+                            Result
+
+                        </strong>
+
+                        <br>
+
+                        {{ item.result }}
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+
+                            Trust Score
+
+                        </strong>
+
+                        <br>
+
+                        {{ item.score }}%
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+            <div class="empty-history">
+
+                No Scan History Available
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- Awareness -->
+
+    <div class="glass-card tips-card">
+
+        <h2>
+
+            🛡 Cyber Security Tips
+
+        </h2>
+
+        <ul>
+
+            <li>✔ Always verify HTTPS before entering passwords.</li>
+
+            <li>✔ Never click unknown email links.</li>
+
+            <li>✔ Check spelling mistakes in URLs.</li>
+
+            <li>✔ Enable Two-Factor Authentication.</li>
+
+            <li>✔ Keep your browser updated.</li>
+
+            <li>✔ Never share OTP or Banking Password.</li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleHistory(){
+
+    let box=document.getElementById("historyBox");
+
+    if(box.style.display==="block"){
+
+        box.style.display="none";
+
+    }
+
+    else{
+
+        box.style.display="block";
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

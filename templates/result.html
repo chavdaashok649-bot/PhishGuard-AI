@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="glass-card scanner-card">
+
+    <h1 class="title">
+        🔍 URL Scan Result
+    </h1>
+
+    <br>
+
+    <h4>Scanned URL</h4>
+
+    <div class="url-box">
+
+        {{ url }}
+
+    </div>
+
+    <br>
+
+    {% if "Safe" in result %}
+
+    <div class="alert alert-success text-center">
+
+        <h2>✅ Safe Website</h2>
+
+        <p>
+            This website appears to be safe.
+        </p>
+
+    </div>
+
+    {% elif "Suspicious" in result %}
+
+    <div class="alert alert-warning text-center">
+
+        <h2>⚠ Suspicious Website</h2>
+
+        <p>
+            This website looks suspicious.
+            Verify carefully before entering passwords.
+        </p>
+
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-danger text-center">
+
+        <h2>❌ Phishing Website</h2>
+
+        <p>
+            Warning!
+            This website may steal your personal information.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+    <br>
+
+    <h4>Trust Score</h4>
+
+    <div class="progress" style="height:30px;">
+
+        {% if score >= 80 %}
+
+        <div
+            class="progress-bar bg-success"
+            style="width:{{score}}%;">
+
+            {{score}}%
+
+        </div>
+
+        {% elif score >= 50 %}
+
+        <div
+            class="progress-bar bg-warning"
+            style="width:{{score}}%;">
+
+            {{score}}%
+
+        </div>
+
+        {% else %}
+
+        <div
+            class="progress-bar bg-danger"
+            style="width:{{score}}%;">
+
+            {{score}}%
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <br>
+
+    <div class="glass-card">
+
+        <h3>🛡 Security Tips</h3>
+
+        <ul style="text-align:left; line-height:35px;">
+
+            <li>✔ Always verify HTTPS.</li>
+
+            <li>✔ Never share OTP or Password.</li>
+
+            <li>✔ Check domain spelling carefully.</li>
+
+            <li>✔ Avoid clicking unknown email links.</li>
+
+            <li>✔ Enable Two-Factor Authentication.</li>
+
+        </ul>
+
+    </div>
+
+    <br>
+
+    <center>
+
+        <a href="/">
+
+            <button class="scan-btn">
+
+                🔍 Scan Another Website
+
+            </button>
+
+        </a>
+
+    </center>
+
+</div>
+
+{% endblock %}

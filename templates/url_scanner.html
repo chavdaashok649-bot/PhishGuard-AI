@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="glass-card">
+
+    <h1 class="title">
+        🌐 AI URL Scanner
+    </h1>
+
+    <p class="subtitle">
+        Scan any website URL to check whether it is Safe, Suspicious or Phishing.
+    </p>
+
+    <br>
+
+    <form action="/predict" method="POST">
+
+        <input
+            type="text"
+            name="url"
+            class="url-input"
+            placeholder="https://example.com"
+            required>
+
+        <br><br>
+
+        <button
+            type="submit"
+            class="scan-btn">
+
+            🔍 Scan Website
+
+        </button>
+
+    </form>
+
+</div>
+
+<br>
+
+{% if result != "Waiting for Scan..." %}
+
+<div class="glass-card">
+
+    <h2>
+
+        Scan Result
+
+    </h2>
+
+    <br>
+
+    {% if score >= 70 %}
+
+    <div class="result-safe">
+
+        <h2>
+
+            ✅ {{ result }}
+
+        </h2>
+
+        <p>
+
+            This website appears to be safe.
+
+        </p>
+
+    </div>
+
+    {% elif score >= 40 %}
+
+    <div class="result-warning">
+
+        <h2>
+
+            ⚠ {{ result }}
+
+        </h2>
+
+        <p>
+
+            This website looks suspicious.
+            Verify before entering personal information.
+
+        </p>
+
+    </div>
+
+    {% else %}
+
+    <div class="result-danger">
+
+        <h2>
+
+            ❌ {{ result }}
+
+        </h2>
+
+        <p>
+
+            High Risk Website.
+            Avoid sharing passwords, OTP or banking details.
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+    <br>
+
+    <h3>
+
+        Website Trust Score
+
+    </h3>
+
+    <br>
+
+    <div class="progress" style="height:28px;">
+
+        {% if score >= 70 %}
+
+        <div
+            class="progress-bar bg-success"
+            style="width:{{score}}%;font-size:16px;">
+
+            {{score}}%
+
+        </div>
+
+        {% elif score >= 40 %}
+
+        <div
+            class="progress-bar bg-warning text-dark"
+            style="width:{{score}}%;font-size:16px;">
+
+            {{score}}%
+
+        </div>
+
+        {% else %}
+
+        <div
+            class="progress-bar bg-danger"
+            style="width:{{score}}%;font-size:16px;">
+
+            {{score}}%
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <br>
+
+    {% if score >= 70 %}
+
+    <h2 style="color:#00ff88;text-align:center;">
+
+        🟢 LOW RISK
+
+    </h2>
+
+    {% elif score >= 40 %}
+
+    <h2 style="color:gold;text-align:center;">
+
+        🟡 MEDIUM RISK
+
+    </h2>
+
+    {% else %}
+
+    <h2 style="color:red;text-align:center;">
+
+        🔴 HIGH RISK
+
+    </h2>
+
+    {% endif %}
+
+</div>
+
+{% endif %}
+
+<br>
+
+<div class="glass-card">
+
+<h2>
+
+🛡 Website Safety Tips
+
+</h2>
+
+<br>
+
+<ul style="line-height:35px;">
+
+<li>✔ Always use HTTPS websites.</li>
+
+<li>✔ Verify the website domain carefully.</li>
+
+<li>✔ Never share OTP on unknown websites.</li>
+
+<li>✔ Check spelling mistakes in URLs.</li>
+
+<li>✔ Avoid clicking suspicious email links.</li>
+
+<li>✔ Enable Two-Factor Authentication.</li>
+
+<li>✔ Keep your browser updated.</li>
+
+</ul>
+
+</div>
+
+{% endblock %}
