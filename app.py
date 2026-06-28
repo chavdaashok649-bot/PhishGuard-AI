@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from model import predict_url
 from database import *
+import re
 
 app = Flask(__name__)
 init_db()
@@ -14,30 +15,68 @@ phishing_scans = 0
 history = []
 
 
+
+
+@app.route("/password_checker", methods=["GET", "POST"])
+def password_checker():
+
+    score = 0
+    suggestion = ""
+
+    if request.method == "POST":
+
+        password = request.form.get("password", "")
+
+        conditions = [
+            len(password) >= 8,
+            len(password) <= 12,
+            re.search(r"[A-Z]", password),
+            re.search(r"[a-z]", password),
+            re.search(r"[0-9]", password),
+            re.search(r"[!@#$%^&*(),.?\":{}|<>]", password),
+            password.lower() not in ["password", "123456", "admin", "qwerty"],
+            not re.search(r"\d{4}", password)
+        ]
+
+        passed = sum(bool(x) for x in conditions)
+        score = int((passed / len(conditions)) * 100)
+
+        if score >= 80:
+            suggestion = "Excellent! Your password is very strong."
+        elif score >= 50:
+            suggestion = "Good password. Improve a few conditions."
+        else:
+            suggestion = "Weak password. Follow all password tips."
+
+    return render_template(
+        "password_checker.html",
+        score=score,
+        suggestion=suggestion
+    )
+
 @app.route("/")
 def home():
+
+    
+
 
     history = get_history()
 
     total, safe, phishing = get_counts()
 
     return render_template(
-
         "index.html",
-
         history=history,
-
         total_scans=total,
-
         safe_scans=safe,
-
         phishing_scans=phishing
-
     )
+
 
 
 @app.route("/predict", methods=["POST"])
 def predict():
+
     
     global total_scans
     global safe_scans
@@ -66,6 +105,8 @@ def predict():
 
     add_scan(url, result, score)
 
+    history = get_history()
+
     return render_template(
         "result.html",
         url=url,
@@ -90,24 +131,18 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/password_checker")
-def password_checker():
-    return render_template(
-        "password_checker.html",
-        score=0,
-        suggestion="Enter Password"
-    )
-
 
 @app.route("/url_scanner")
 def url_scanner():
+    history = get_history()
+    total, safe, phishing = get_counts()
 
     return render_template(
         "index.html",
-        total_scans=total_scans,
-        safe_scans=safe_scans,
-        phishing_scans=phishing_scans,
-        history=history[::-1]
+        history=history,
+        total_scans=total,
+        safe_scans=safe,
+        phishing_scans=phishing
     )
 
 
